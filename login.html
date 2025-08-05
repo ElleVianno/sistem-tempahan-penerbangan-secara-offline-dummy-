@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Log Masuk</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(rgba(50, 100, 150, 0.6), rgba(100, 150, 200, 0.6)), 
+                url('image.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    width: 300px;
+    text-align: center;
+    color: #1E3A5F;
+}
+
+.login-container img {
+    max-width: 120px;
+    margin-bottom: 20px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #1E3A5F;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.login-container button {
+    background-color: #1E3A5F;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.login-container button:hover {
+    background-color: #3B5998;
+}
+
+.forgot-password {
+    color: #1E3A5F;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+}
+
+.loading-overlay.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1E3A5F;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- Logo -->
+        <img src="images/logo.jpg" alt="Logo">
+
+        <!-- Username and Password Form -->
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Nama Pengguna" required>
+            <input type="password" id="password" placeholder="Kata Laluan" required>
+            <button type="submit">Log Masuk</button>
+            <div id="error-message" class="error-message"></div>
+        </form>
+
+        <!-- Forgot Password Link -->
+        <a href="#" class="forgot-password" onclick="showForgotPasswordInfo()">Lupa Kata Laluan?</a>
+    </div>
+
+    <!-- Animasi Loading -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // Tetapkan username dan password yang sah
+        const validUsername = 'kvparadise';
+        const validPassword = 'elleqeel';
+
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah penghantaran borang secara default
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var errorMessage = document.getElementById('error-message');
+            var loadingOverlay = document.getElementById('loadingOverlay');
+
+            // Resetkan mesej ralat
+            errorMessage.textContent = '';
+
+            // Semak jika username dan password betul
+            if (username === validUsername && password === validPassword) {
+                // Paparkan animasi loading
+                loadingOverlay.classList.add('visible');
+
+                // Alihkan ke halaman utama selepas 2 saat
+                setTimeout(function() {
+                    window.location.href = 'homepage.html'; // Gantikan 'homepage.html' dengan URL halaman utama anda
+                }, 2000);
+            } else {
+                // Tunjukkan mesej ralat jika log masuk gagal
+                errorMessage.textContent = 'Nama pengguna atau kata laluan salah. Sila cuba lagi.';
+            }
+        });
+
+        function showForgotPasswordInfo() {
+            // Paparkan maklumat username dan password
+            alert('Nama Pengguna: ' + validUsername + '\nKata Laluan: ' + validPassword);
+        }
+    </script>
+</body>
+</html>

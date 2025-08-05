@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Method</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e7ef;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            display: flex;
+            width: 70%;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            gap: 20px;
+        }
+        .left-section, .right-section {
+            flex: 1;
+            padding: 20px;
+            background: #f9fafc;
+            border-radius: 10px;
+        }
+        .left-section {
+            border-right: 3px solid #d9e2ef;
+        }
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .option {
+            padding: 15px 25px;
+            background: #5b9bd5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+        .option:hover, .option.selected {
+            background: #2f75b5;
+        }
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 12px;
+            margin-top: 10px;
+            width: calc(100% - 24px);
+            border: 1px solid #2f75b5;
+            border-radius: 6px;
+            outline: none;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            background: #2f75b5;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background: #1f4e78;
+        }
+        p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1f4e78;
+            text-align: center;
+        }
+        #change-amount {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #d9e2ef;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .footer-container {
+            width: 70%;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .footer-buttons {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f9fafc;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .footer-buttons button {
+            width: 45%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h1>Pilih Kaedah Pembayaran</h1>
+            <div class="payment-options">
+                <div class="option" id="cash">Tunai</div>
+                <div class="option" id="card">Kad Debit/Kredit</div>
+            </div>
+            <div class="payment-details" id="cash-details">
+                <h3>Bayaran Tunai</h3>
+                <label>Masukkan jumlah wang tunai:</label>
+                <input type="number" id="cash-input" placeholder="RM">
+                <button onclick="calculateChange()">Kira Baki</button>
+                <p>Baki: <span id="change-amount">RM0.00</span></p>
+            </div>
+            <div class="payment-details" id="card-details">
+                <h3>Maklumat Kad</h3>
+                <input type="text" placeholder="Nama Pemegang Kad">
+                <input type="text" placeholder="Nombor Kad">
+                <input type="text" placeholder="Tarikh Tamat (MM/YY)">
+                <input type="text" placeholder="CVV">
+                <button>Pengesahan Pembayaran</button>
+            </div>
+        </div>
+        <div class="right-section">
+            <h2>Fare Summary</h2>
+            <p><strong>Seat Selected:</strong> <span id="seat-info">N/A</span></p>
+            <p><strong>Meal Selection:</strong> <span id="meal-info">N/A</span></p>
+            <p><strong>Tax Fee:</strong> <span id="tax-fee">RM0.00</span></p>
+            <p><strong>Total Payment:</strong> <span id="total-payment">RM0.00</span></p>
+            <button onclick="completePayment()">Selesai Pembayaran</button>
+        </div>
+    </div>
+    <div class="footer-container">
+        <div class="footer-buttons">
+            <button onclick="goBack()">Kembali</button>
+            <button onclick="goHome()">Laman Utama</button>
+        </div>
+        <p>@2024 travel and agency</p>
+    </div>
+    <script>
+        document.querySelectorAll('.option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.querySelectorAll('.payment-details').forEach(detail => detail.style.display = 'none');
+                document.getElementById(this.id + '-details').style.display = 'block';
+            });
+        });
+
+        function calculateChange() {
+            let amountPaid = parseFloat(document.getElementById('cash-input').value) || 0;
+            let totalAmount = parseFloat(document.getElementById('total-payment').textContent.replace('RM', '')) || 0;
+            let change = amountPaid - totalAmount;
+            document.getElementById('change-amount').textContent = change >= 0 ? `RM${change.toFixed(2)}` : "Tidak mencukupi";
+        }
+
+        function getRandomTaxFee() {
+            return Math.floor(Math.random() * 21) + 5;
+        }
+
+        let taxFee = getRandomTaxFee();
+        document.getElementById("tax-fee").textContent = `RM${taxFee}.00`;
+
+        function completePayment() {
+            window.location.href = "e-ticket.html";
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function goHome() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>

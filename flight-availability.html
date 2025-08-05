@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ketersediaan Penerbangan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e7ff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .font-container {
+            background: #1e3a8a;
+            color: white;
+            padding: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .form-container {
+            width: 50%;
+            margin: 80px auto 50px auto;
+            padding: 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+            color: #374151;
+        }
+        input, select {
+            display: block;
+            width: 90%;
+            margin-top: 5px;
+            padding: 6px;
+            border: 1px solid #94a3b8;
+            border-radius: 5px;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .column {
+            flex: 1;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="font-container header">FLIGHT AVAILABILITY</div>
+    
+    <div class="form-container">
+        <form id="flightForm">
+            <div class="row">
+                <div class="column">
+                    <label for="origin">Asal</label>
+                    <input type="text" id="origin" placeholder="Cari lokasi asal" required list="locations">
+                </div>
+                <div class="column">
+                    <label for="destination">Destinasi</label>
+                    <input type="text" id="destination" placeholder="Cari lokasi destinasi" required list="locations">
+                </div>
+            </div>
+            
+            <datalist id="locations">
+                <option value="Kuala Lumpur (KUL)">
+                <option value="Penang (PEN)">
+                <option value="Johor Bahru (JHB)">
+                <option value="Kota Kinabalu (BKI)">
+                <option value="Kuching (KCH)">
+                <option value="Langkawi (LGK)">
+                <option value="Ipoh (IPH)">
+                <option value="Miri (MYY)">
+                <option value="Tawau (TWU)">
+                <option value="Kuala Terengganu (TGG)">
+                <option value="Alor Setar (AOR)">
+                <option value="Kota Bharu (KBR)">
+                <option value="Sandakan (SDK)">
+                <option value="Bintulu (BTU)">
+                <option value="Sibu (SBW)">
+            </datalist>
+            
+            <div class="row">
+                <div class="column">
+                    <label for="departureDate">Tarikh Berlepas</label>
+                    <input type="date" id="departureDate" required onchange="updateReturnDate()">
+                </div>
+                <div class="column" id="returnDateContainer" style="display: none;">
+                    <label for="returnDate">Tarikh Pulang</label>
+                    <input type="date" id="returnDate">
+                </div>
+            </div>
+            
+            <label for="tripType">Jenis Perjalanan</label>
+            <select id="tripType" onchange="toggleReturnDate()">
+                <option value="oneway">Sehala</option>
+                <option value="roundtrip">Pergi Balik</option>
+            </select>
+            
+            <label>Penumpang:</label>
+            <div class="row">
+                <div class="column">
+                    <label for="adult">Dewasa</label>
+                    <input type="number" id="adult" min="1" value="1" required>
+                </div>
+                <div class="column">
+                    <label for="child">Kanak-Kanak</label>
+                    <input type="number" id="child" min="0" value="0">
+                </div>
+                <div class="column">
+                    <label for="infant">Bayi</label>
+                    <input type="number" id="infant" min="0" value="0">
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button type="button" onclick="saveFlightDetails()">Semak Ketersediaan</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="font-container footer">@2025 KV Paradise Sdn Bhd</div>
+    
+    <script>
+        function toggleReturnDate() {
+            const tripType = document.getElementById("tripType").value;
+            const returnDateContainer = document.getElementById("returnDateContainer");
+            
+            if (tripType === "roundtrip") {
+                returnDateContainer.style.display = "block";
+            } else {
+                returnDateContainer.style.display = "none";
+            }
+        }
+
+        function updateReturnDate() {
+            const departureDate = document.getElementById("departureDate").value;
+            document.getElementById("returnDate").setAttribute("min", departureDate);
+        }
+
+        function saveFlightDetails() {
+            const flightDetails = {
+                origin: document.getElementById("origin").value,
+                destination: document.getElementById("destination").value,
+                tripType: document.getElementById("tripType").value,
+                departureDate: document.getElementById("departureDate").value,
+                returnDate: document.getElementById("tripType").value === "roundtrip" ? document.getElementById("returnDate").value : "",
+                adult: document.getElementById("adult").value,
+                child: document.getElementById("child").value,
+                infant: document.getElementById("infant").value
+            };
+            
+            localStorage.setItem("flightDetails", JSON.stringify(flightDetails));
+            window.location.href = "flight-selection1.html";
+        }
+    </script>
+</body>
+</html>

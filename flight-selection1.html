@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemilihan Penerbangan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0; /* Kelabu lembut */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .font-container {
+            background-color: #1a237e; /* Biru gelap */
+            color: white;
+            padding: 15px;
+            border-radius: 0;
+            margin: 0;
+            width: 100%;
+            text-align: center;
+        }
+        .table-container {
+            width: 90%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: left;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #1a237e; /* Biru gelap */
+            color: white;
+        }
+        button {
+            background-color: #3f51b5; /* Biru lembut */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #303f9f; /* Biru lebih gelap */
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #1a237e;
+            color: white;
+            text-align: center;
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="font-container">
+        <h1>FLIGHT SELECTION</h1>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Asal</th>
+                    <th>Destinasi</th>
+                    <th>Pembawa Penerbangan</th>
+                    <th>Tarikh Berlepas</th>
+                    <th>Tarikh Pulang</th>
+                    <th>Masa Berlepas</th>
+                    <th>Masa Ketibaan</th>
+                    <th>First Class</th>
+                    <th>Business Class</th>
+                    <th>Economy Class</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="flightTableBody">
+                <!-- Data penerbangan akan dimasukkan di sini -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="footer">@2025 KV Paradise Sdn Bhd</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            function generateRandomSeats(totalSeats, min, max) {
+                let seats = [];
+                let seatNumbers = Array.from({ length: totalSeats }, (_, i) => i + min);
+                let availableSeats = Math.floor(Math.random() * totalSeats) + 1;
+                for (let i = 0; i < availableSeats; i++) {
+                    let index = Math.floor(Math.random() * seatNumbers.length);
+                    seats.push(seatNumbers.splice(index, 1)[0]);
+                }
+                return seats;
+            }
+    
+            function getRandomPrice(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+    
+            let seatData = {
+                firstClass: {
+                    available: generateRandomSeats(10, 1, 12),
+                    price: getRandomPrice(400, 600)
+                },
+                businessClass: {
+                    available: generateRandomSeats(20, 11, 30),
+                    price: getRandomPrice(250, 350)
+                },
+                economyClass: {
+                    available: generateRandomSeats(30, 31, 60),
+                    price: getRandomPrice(100, 200)
+                }
+            };
+    
+            localStorage.setItem("seatData", JSON.stringify(seatData));
+            console.log("Data tempat duduk disimpan:", seatData);
+    
+            loadFlightDetails();
+        });
+    
+        function loadFlightDetails() {
+            let flightDetails = JSON.parse(localStorage.getItem("flightDetails"));
+            let seatData = JSON.parse(localStorage.getItem("seatData"));
+    
+            if (!flightDetails || !seatData) {
+                console.error("Tiada data penerbangan atau tempat duduk.");
+                return;
+            }
+    
+            let tableBody = document.getElementById("flightTableBody");
+            if (!tableBody) {
+                console.error("Elemen jadual tidak ditemui.");
+                return;
+            }
+    
+            let newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${flightDetails.origin}</td>
+                <td>${flightDetails.destination}</td>
+                <td>Malaysia Airlines</td>
+                <td>${formatDateMalay(flightDetails.departureDate)}</td>
+                <td>${flightDetails.returnDate ? formatDateMalay(flightDetails.returnDate) : '-'}</td>
+                <td>${generateRandomTime()}</td>
+                <td>${generateRandomTime()}</td>
+                <td class="seat-price" data-price="RM ${seatData.firstClass.price}">${seatData.firstClass.available.length}
+                <td class="seat-price" data-price="RM ${seatData.businessClass.price}">${seatData.businessClass.available.length} 
+                <td class="seat-price" data-price="RM ${seatData.economyClass.price}">${seatData.economyClass.available.length} 
+                <td><button onclick="selectSeat()">Pilih Tempat Duduk</button></td>
+            `;
+    
+            tableBody.appendChild(newRow);
+    
+            document.querySelectorAll(".seat-price").forEach(cell => {
+                cell.addEventListener("mouseover", function () {
+                    this.dataset.original = this.innerText;
+                    this.innerText = this.dataset.price;
+                });
+                cell.addEventListener("mouseout", function () {
+                    this.innerText = this.dataset.original;
+                });
+            });
+        }
+    
+        function selectSeat() {
+            window.location.href = "seat-booking1.html";
+        }
+    
+        function generateRandomTime() {
+            let hours = Math.floor(Math.random() * 12) + 1;
+            let minutes = Math.floor(Math.random() * 60);
+            let period = Math.random() > 0.5 ? "AM" : "PM";
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
+        }
+    
+        function formatDateMalay(dateStr) {
+            const monthNames = ["JAN", "FEB", "MAC", "APR", "MEI", "JUN", "JUL", "OGOS", "SEP", "OKT", "NOV", "DIS"];
+            let date = new Date(dateStr);
+            let day = date.getDate().toString().padStart(2, '0');
+            let month = monthNames[date.getMonth()];
+            let year = date.getFullYear();
+            return `${day} ${month} ${year}`;
+        }
+    </script>
+    </body>
+    </html>

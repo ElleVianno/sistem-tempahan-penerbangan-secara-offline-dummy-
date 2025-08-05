@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Ticket - Hafiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dbe5f1;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .ticket-container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 85, 170, 0.3);
+            text-align: left;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: #0055aa;
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .details {
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            background: #f1f4f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .details h3 {
+            color: #003d82;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #0055aa;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background: #003d82;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container" id="ticket">
+        <div class="header">
+            <h1>E-TICKET</h1>
+            <p>Terima kasih kerana memilih syarikat penerbangan kami.</p>
+        </div>
+        
+        <div class="details">
+            <h3>Maklumat Penumpang</h3>
+            <p><strong>Nama:</strong> Hafiz</p>
+            <p><strong>No. Tiket:</strong> 123456789</p>
+            <p><strong>Tarikh Tempahan:</strong> 26 Februari 2025</p>
+        </div>
+        
+        <div class="details">
+            <h3>Maklumat Penerbangan</h3>
+            <p><strong>Dari:</strong> Kuala Lumpur (KUL)</p>
+            <p><strong>Ke:</strong> Kota Bharu (KBR)</p>
+            <p><strong>Tarikh Berlepas:</strong> 28 Februari 2025</p>
+            <p><strong>Masa Berlepas:</strong> 10:30 AM</p>
+            <p><strong>Masa Ketibaan:</strong> 11:45 AM</p>
+            <p><strong>Syarikat Penerbangan:</strong> Malaysia Airlines</p>
+            <p><strong>No. Penerbangan:</strong> MH1320</p>
+            <p><strong>Kelas:</strong> Ekonomi</p>
+            <p><strong>No. Tempat Duduk:</strong> 12A</p>
+        </div>
+        
+        <div class="details">
+            <h3>Maklumat Tambahan</h3>
+            <p>Sila tiba di lapangan terbang sekurang-kurangnya 2 jam sebelum waktu berlepas.</p>
+            <p>Pastikan anda membawa dokumen perjalanan yang sah.</p>
+        </div>
+        
+        <button class="button" onclick="saveFile()">Simpan E-Tiket</button>
+        <button class="button" onclick="printTicket()">Cetak Tiket</button>
+        
+        <div class="footer">
+            <p>Selamat perjalanan dan terima kasih kerana memilih kami!</p>
+        </div>
+    </div>
+
+    <script>
+        function saveFile() {
+            const ticketContent = document.querySelector('.ticket-container').innerHTML;
+            const fileName = prompt("Masukkan nama fail untuk e-tiket:", "E-Ticket_Hafiz");
+            if (fileName) {
+                window.showSaveFilePicker({
+                    suggestedName: fileName + ".html",
+                    types: [{ description: "HTML File", accept: { "text/html": [".html"] } }]
+                }).then(handle => handle.createWritable()).then(writable => {
+                    writable.write(new Blob([ticketContent], { type: 'text/html' })).then(() => {
+                        writable.close();
+                        alert("E-Tiket berjaya disimpan!");
+                    });
+                }).catch(err => {
+                    console.error("Penyimpanan dibatalkan atau gagal:", err);
+                });
+            }
+        }
+        
+        function printTicket() {
+            const printContent = document.getElementById("ticket").innerHTML;
+            const originalContent = document.body.innerHTML;
+            document.body.innerHTML = printContent;
+            window.print();
+            document.body.innerHTML = originalContent;
+        }
+    </script>
+</body>
+</html>

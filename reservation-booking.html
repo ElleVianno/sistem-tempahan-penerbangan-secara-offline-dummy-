@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Booking</title>
+    <style>
+     body { 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background-color: #f0f4f8; /* Latar belakang kelabu lembut */
+}
+
+.header { 
+    background-color: #1e3a5f; /* Biru gelap */
+    color: white; 
+    padding: 20px; 
+    text-align: center; 
+    font-size: 28px; 
+    font-weight: bold; 
+}
+
+.container { 
+    padding: 20px; 
+    max-width: 1000px; 
+    margin: 0 auto; 
+}
+
+.font-container { 
+    padding: 20px; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    background-color: #ffffff; /* Putih untuk kontras */
+    margin-bottom: 20px; 
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-bottom: 20px; 
+}
+
+table, th, td { 
+    border: 1px solid #ccc; 
+}
+
+th, td { 
+    padding: 10px; 
+    text-align: left; 
+}
+
+th { 
+    background-color: #3b5998; /* Biru medium */
+    color: white; 
+}
+
+.footer { 
+    background-color: #1e3a5f; /* Biru gelap */
+    color: white; 
+    text-align: center; 
+    padding: 15px; 
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+}
+
+.form-container input, 
+.form-container select { 
+    width: 100%; 
+    padding: 8px; 
+    margin: 5px 0 10px 0; 
+    display: inline-block; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    box-sizing: border-box; 
+}
+
+.form-container input[type="submit"], 
+.form-container button { 
+    width: 100%; 
+    background-color: #3b5998; /* Biru medium */
+    color: white; 
+    padding: 10px 20px; 
+    margin-top: 20px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+
+.form-container input[type="submit"]:hover, 
+.form-container button:hover { 
+    background-color: #2a4d7f; /* Biru lebih gelap */
+}
+
+.checkbox-container { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 20px; 
+}
+
+.checkbox-container input { 
+    margin-right: 10px; 
+}
+
+.remarks-container { 
+    margin-bottom: 20px; 
+}
+
+.remarks-container textarea { 
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    box-sizing: border-box; 
+}
+
+    </style>
+</head>
+<body>
+
+<div class="header">PASSENGER NAME RECORD</div>
+<div class="container">
+    <!-- First font-container for Reservation Booking and Passenger Information -->
+    <div class="font-container">
+        <div class="form-container">
+            <h2>RESERVATION BOOKING</h2>
+            <form id="reservationForm" action="javascript:submitForm()">
+                <label for="title">Title:</label>
+                <select id="title" name="title" required>
+                    <option value="Mr">Mr</option>
+                    <option value="Ms">Ms</option>
+                    <option value="Mrs">Mrs</option>
+                    <option value="Dr">Dr</option>
+                    <option value="Master">Master</option>
+                    <option value="Miss">Miss</option>
+                    <option value="Professor">Professor</option>
+                    <option value="Dato'">Dato'</option>
+                    <option value="Datin">Datin</option>
+                    <option value="Datuk">Datuk</option>
+                    <option value="Tun">Tun</option>
+                    <option value="Puan Sri">Puan Sri</option>
+                    <option value="Tan Sri">Tan Sri</option>
+                    <option value="Toh Puan">Toh Puan</option>
+                    <option value="Dato Seri">Dato Seri</option>
+                    <option value="Datuk Seri">Datuk Seri</option>
+                    <option value="Datin Seri">Datin Seri</option>
+                    <option value="Datin Sri">Datin Sri</option>
+                    <option value="Dato' Sri">Dato' Sri</option>
+                    <option value="Madam">Madam</option>
+                    <option value="Duli Yang Maha Mulia">Duli Yang Maha Mulia</option>
+                    <option value="Duli Yang Teramat Mulia">Duli Yang Teramat Mulia</option>
+                    <option value="Yang Amat Mulia">Yang Amat Mulia</option>
+                    <option value="Yang Teramat Mulia">Yang Teramat Mulia</option>
+                    <option value="Yang Mulia">Yang Mulia</option>
+                </select>
+
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="idnumber">Passport/ID Number:</label>
+                <input type="text" id="idnumber" name="idnumber" required>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <h3>PASSENGER INFORMATION</h3>
+                <label for="numPassengers">Number of Passengers:</label>
+                <input type="number" id="numPassengers" name="numPassengers" min="1" value="1" required onchange="updatePassengerFields()">
+
+                <div id="passengerFields">
+                    <!-- Passenger fields will be dynamically added here -->
+                </div>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+
+    <!-- Second font-container for Reservation Details, Passenger Details, click right, remarks, and proceed payment -->
+    <div class="font-container">
+        <h3>Reservation Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Full Name</th>
+                    <th>Passport/ID Number</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody id="reservationData">
+                <!-- Reservation data will appear here -->
+            </tbody>
+        </table>
+
+        <h3>Passenger Details</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bil.</th>
+                    <th>Passenger Full Name</th>
+                    <th>Passenger Passport/ID Number</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Departure Date</th>
+                    <th>Return Date</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Time</th>
+                    <th>Flight Carrier</th>
+                    <th>Flight of Class</th>
+                </tr>
+            </thead>
+            <tbody id="passengerData">
+                <!-- Passenger data will appear here -->
+            </tbody>
+        </table>
+
+        <div class="checkbox-container">
+            <input type="checkbox" id="clickRight" name="clickRight" required>
+            <label for="clickRight">I understand and accept the Terms and Conditions of Carriage, Terms and Conditions, Privacy Policy, and Fare Conditions</label>
+        </div>
+
+        <div class="remarks-container">
+            <label for="remarks">Remarks:</label>
+            <textarea id="remarks" name="remarks" rows="4" placeholder="Enter any remarks here..."></textarea>
+        </div>
+
+        <button class="next-button" onclick="proceedToPayment()">Next</button>
+    </div>
+</div>
+
+<div class="footer">
+    &copy; 2024 Flight Reservation System. All rights reserved.
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    updatePassengerFields();
+    loadFlightData();
+});
+
+function updatePassengerFields() {
+    const numPassengers = document.getElementById('numPassengers').value;
+    const passengerFieldsDiv = document.getElementById('passengerFields');
+    passengerFieldsDiv.innerHTML = '';
+    
+    for (let i = 1; i <= numPassengers; i++) {
+        passengerFieldsDiv.innerHTML += `
+            <h4>Passenger ${i}</h4>
+            <label for="passengerName${i}">Full Name:</label>
+            <input type="text" id="passengerName${i}" name="passengerName${i}" required>
+
+            <label for="passengerID${i}">Passport/ID Number:</label>
+            <input type="text" id="passengerID${i}" name="passengerID${i}" required>
+
+            <label for="flightClass${i}">Flight Class:</label>
+            <select id="flightClass${i}" name="flightClass${i}" required>
+                <option value="First Class">First Class</option>
+                <option value="Business Class">Business Class</option>
+                <option value="Economy Class">Economy Class</option>
+            </select>
+        `;
+    }
+}
+
+function loadFlightData() {
+    const flightDetails = JSON.parse(localStorage.getItem("flightDetails"));
+    if (flightDetails) {
+        document.getElementById("flightOrigin").textContent = flightDetails.origin || "N/A";
+        document.getElementById("flightDestination").textContent = flightDetails.destination || "N/A";
+        document.getElementById("flightDepartDate").textContent = formatDateMalay(flightDetails.departureDate) || "N/A";
+        document.getElementById("flightReturnDate").textContent = flightDetails.returnDate ? formatDateMalay(flightDetails.returnDate) : "-";
+        document.getElementById("flightDepartTime").textContent = generateRandomTime();
+        document.getElementById("flightArrivalTime").textContent = generateRandomTime();
+        document.getElementById("flightCarrier").textContent = "Malaysia Airlines";
+    }
+}
+
+function submitForm() {
+    const form = document.getElementById("reservationForm");
+    const reservationData = document.getElementById("reservationData");
+    reservationData.innerHTML = `
+        <tr>
+            <td>${form.title.value}</td>
+            <td>${form.name.value}</td>
+            <td>${form.idnumber.value}</td>
+            <td>${form.address.value}</td>
+            <td>${form.email.value}</td>
+            <td>${form.phone.value}</td>
+        </tr>
+    `;
+
+    const passengerTable = document.getElementById('passengerData');
+    passengerTable.innerHTML = '';
+    const numPassengers = document.getElementById('numPassengers').value;
+    const flightDetails = JSON.parse(localStorage.getItem("flightDetails")) || {};
+
+    for (let i = 0; i < numPassengers; i++) {
+        const passengerName = document.getElementById(`passengerName${i + 1}`).value;
+        const passengerID = document.getElementById(`passengerID${i + 1}`).value;
+        const flightClass = document.getElementById(`flightClass${i + 1}`).value;
+
+        const row = passengerTable.insertRow();
+        row.insertCell(0).innerHTML = i + 1;
+        row.insertCell(1).innerHTML = passengerName;
+        row.insertCell(2).innerHTML = passengerID;
+        row.insertCell(3).innerHTML = flightDetails.origin || "N/A";
+        row.insertCell(4).innerHTML = flightDetails.destination || "N/A";
+        row.insertCell(5).innerHTML = formatDateMalay(flightDetails.departureDate) || "N/A";
+        row.insertCell(6).innerHTML = flightDetails.returnDate ? formatDateMalay(flightDetails.returnDate) : "-";
+        row.insertCell(7).innerHTML = generateRandomTime();
+        row.insertCell(8).innerHTML = generateRandomTime();
+        row.insertCell(9).innerHTML = "Malaysia Airlines";
+        row.insertCell(10).innerHTML = flightClass;
+    }
+}
+
+function proceedToPayment() {
+    window.location.href = "payment.html";
+}
+
+function generateRandomTime() {
+    let hours = Math.floor(Math.random() * 12) + 1;
+    let minutes = Math.floor(Math.random() * 60);
+    let period = Math.random() > 0.5 ? "AM" : "PM";
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
+}
+
+function formatDateMalay(dateStr) {
+    const monthNames = ["JAN", "FEB", "MAC", "APR", "MEI", "JUN", "JUL", "OGOS", "SEP", "OKT", "NOV", "DIS"];
+    let date = new Date(dateStr);
+    let day = date.getDate().toString().padStart(2, '0');
+    let month = monthNames[date.getMonth()];
+    let year = date.getFullYear();
+    return `${day} ${month} ${year}`;
+}
+
+</script>
+
+</body>
+</html>

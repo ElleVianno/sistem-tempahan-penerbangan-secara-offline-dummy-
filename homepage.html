@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #007BFF;
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeSlideDown 1s ease-in-out;
+}
+
+@keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+        header img {
+            width: 50px;
+        }
+        header nav {
+            display: flex;
+            gap: 20px;
+        }
+        header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+header nav a:hover {
+    color: #e3f2fd;
+    transform: scale(1.05);
+}
+
+        .settings-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            color: black;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .settings-dropdown button {
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            background-color: rgb(45, 196, 158);
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .settings-dropdown button:hover {
+            background-color: #35a490;
+        }
+
+        .settings:hover .settings-dropdown {
+            display: flex;
+        }
+        .main-content {
+    margin-top: 100px;
+    text-align: center;
+    animation: fadeIn 1.5s ease-in-out;
+}
+        .main-content img {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .main-content h1 {
+    font-size: 48px;
+    margin-top: 20px;
+    color: #0056b3;
+    animation: fadeSlideUp 1s ease-in-out;
+}
+
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.main-content p {
+    font-size: 20px;
+    color: #666;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+        img {
+    width: 100%; /* Mengecilkan gambar kepada 50% daripada lebar kontainernya */
+    height: auto; /* Menjaga nisbah gambar supaya tidak terherot */
+    max-width: 2100px; /* Saiz maksimum gambar */
+}
+        .font-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            gap: 20px;
+        }
+        .font-container button {
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 18px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.font-container button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}
+
+        /* Student Information Section */
+        .student-info-section {
+    padding: 40px;
+    background-color: white;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px auto;
+    width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .student-info-section h2 {
+    font-size: 32px;
+    color: #007BFF;
+    margin-bottom: 20px;
+}
+
+.student-info-section p span {
+    color: #0056b3;
+    font-weight: bold;
+}
+
+        .student-info-section p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+            animation: fadeIn 2.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .explore-section {
+            padding: 40px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeUp 1s ease-in-out;
+        }
+        .explore-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #0056b3;
+        }
+        .explore-section p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .explore-section img {
+            width: 80%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        .explore-section img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Multiple travel information blocks */
+        .info-blocks {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .info-block {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            width: 300px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s, background-color 0.3s;
+            animation: fadeInBlock 1s ease-in-out;
+        }
+        @keyframes fadeInBlock {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .info-block img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .info-block h3 {
+            color: #0056b3;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .info-block p {
+            color: #666;
+            font-size: 16px;
+        }
+        .info-block:hover {
+            background-color: #0056b3;
+            color: white;
+            transform: translateY(-5px);
+        }
+        .info-block:hover p {
+            color: white;
+        }
+
+        footer {
+    background-color: #343a40;
+    color: white;
+    padding: 40px;
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+}
+footer p {
+    font-size: 16px;
+    margin: 20px 0;
+}
+
+        footer video {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeUp 1.5s ease-in-out;
+        }
+        .media-platform {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+            animation: fadeUp 1.5s ease-in-out;
+        }
+        .media-platform img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .media-platform p {
+            margin: 0;
+            font-size: 16px;
+        }
+        .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+}
+
+.loading-overlay.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #1E3A5F;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images.jpg" alt="Logo">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">About Us</a>
+            <a href="#">Feedback</a>
+            <a href="#">Settings</a>
+            <div class="settings-dropdown">
+                <button onclick="toggleTheme('dark')">Dark Mode</button>
+                <button onclick="toggleTheme('light')">Light Mode</button>
+                <button onclick="changeLanguage('malay')">Bahasa Melayu</button>
+                <button onclick="changeLanguage('english')">English</button>
+            </div>
+        </div>
+    </nav>
+</header>
+
+    <div class="main-content">
+        <img src="c:\Users\user\Downloads\travelbanner.jpg" alt="travel-banner.jpg" />
+        <h1>Welcome to Your KV Paradise Travel & Tours</h1>
+        <p>Discover amazing places around the Malaysia.</p>
+        <div class="font-container">
+            <button id="bookingButton" class="btn-tempahan">Menempah Tiket Penerbangan</button>
+        </div>
+    </div>
+
+    <!-- Loading Animation -->
+    <div id="loadingAnimation" class="loading">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Explore New Places Section -->
+    <section class="explore-section">
+        <h2>The Most Popular Places To Visit</h2>
+        <p>Travel across different destinations and have the best experience of your life!</p>
+        <div class="info-blocks">
+            <div class="info-block">
+                <img src="c:\Users\user\Downloads\klcc3.jpg" alt="Kuala Lumpur">
+                <h3>Kuala Lumpur</h3>
+                <p>The city of love and lights. Explore iconic landmarks like the Eiffel Tower.</p>
+            </div>
+            <div class="info-block">
+                <img src="c:\Users\user\Downloads\langkawi.jpg" alt="Langkawi">
+                <h3>Langkawi</h3>
+                <p>Experience the serene beaches and vibrant culture in Bali, Indonesia.</p>
+            </div>
+            <div class="info-block">
+                <img src="c:\Users\user\Downloads\kelantan.jpg" alt="Kelantan">
+                <h3>Kelantan</h3>
+                <p>Discover the fast-paced life of New York City
+                </div>
+            </div>
+        </section>
+
+        <section class="explore-section">
+            <h2>Popular Packages</h2>
+            <p>Travel across different destinations and have the best experience of your life!</p>
+            <div class="info-blocks">
+                <div class="info-block">
+                    <img src="paris.jpg" alt="Paris">
+                    <h3>Essential Explorer Package</h3>
+                    <p>The city of love and lights. Explore iconic landmarks like the Eiffel Tower.</p>
+                </div>
+                <div class="info-block">
+                    <img src="bali.jpg" alt="Bali">
+                    <h3>Classic Comfort Package</h3>
+                    <p>Experience the serene beaches and vibrant culture in Bali, Indonesia.</p>
+                </div>
+                <div class="info-block">
+                    <img src="new-york.jpg" alt="New York">
+                    <h3>Signature Experience Package</h3>
+                    <p>Discover the fast-paced life of New York City
+                    </div>
+                </div>
+            </section>
+
+         <!-- Student Information Section -->
+    <section class="student-info-section">
+        <h2>Project Developed By</h2>
+        <img src="images/elle-profile.jpg" alt="elle-profile.jpg"/>
+        <p><span>Name:</span> ELLE VIANNO</p>
+        <p><span>Institution:</span> Kolej Vokasional Port Dickson</p>
+        <p><span>Program:</span> Tourism Management</p>
+        <p><span>Contact:</span> piszpizza@gmail.com</p>
+    </section>
+
+    <section class="student-info-section">
+        <h2>Project Assistant Developed By</h2>
+        <img src="images/aqeel-profile.jpg" alt="aqeel-profile-img"/>
+        <p><span>Name:</span> AQEEL</p>
+        <p><span>Institution:</span> Kolej Vokasional Port Dickson</p>
+        <p><span>Program:</span> Tourism Management</p>
+        <p><span>Contact:</span> aqeel@gmail.com</p>
+    </section>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+            <script>
+                function toggleTheme(theme) {
+                    if (theme === 'dark') {
+                        document.body.style.backgroundColor = '#333';
+                        document.body.style.color = '#f0f0f0';
+                    } else {
+                        document.body.style.backgroundColor = '#f0f0f0';
+                        document.body.style.color = '#333';
+                    }
+                }
+        
+                function changeLanguage(language) {
+                    if (language === 'malay') {
+                        alert('Bahasa telah ditukar ke Bahasa Melayu.');
+                    } else {
+                        alert('Language has been switched to English.');
+                    }
+                }
+                document.getElementById('bookingButton').addEventListener('click', function() {
+    // Tunjukkan animasi loading
+    document.getElementById('loadingAnimation').style.display = 'flex';
+
+    // Paparkan animasi loading
+    loadingOverlay.classList.add('visible');
+
+    // Simulate loading process (contoh delay 1 saat)
+    setTimeout(function() {
+        // Alihkan ke halaman seterusnya
+        window.location.href = "flight-availability.html";
+    }, 2000);  // Anda boleh ubah masa 2000ms mengikut keperluan
+});
+
+            </script>
+        </head>
+        <body>
+            <header>
+                <img src="logo.png" alt="Logo">
+                <nav>
+                    <a href="#">Home</a>
+                    <a href="#">About Us</a>
+                    <a href="#">Feedback</a>
+                        <a href="#">Settings</a>
+                        <div class="settings-dropdown">
+                            <button onclick="toggleTheme('dark')">Dark Mode</button>
+                            <button onclick="toggleTheme('light')">Light Mode</button>
+                            <button onclick="changeLanguage('malay')">Bahasa Melayu</button>
+                            <button onclick="changeLanguage('english')">English</button>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+        
+            <footer>
+                <div class="media-platform">
+                    <img src="facebook-icon.png" alt="Facebook">
+                    <img src="instagram-icon.png" alt="Instagram">
+                    <img src="twitter-icon.png" alt="Twitter">
+                    <p>Connect with us on social media!</p>
+                </div>
+                <p>&copy; 2024 travel and agency. All rights reserved.</p>
+                <video controls>
+                    <source src="promo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </footer>
+        </body>
+        </html>
